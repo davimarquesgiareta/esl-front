@@ -47,7 +47,7 @@ export default function Register() {
         <input type="password" class="form-control" name="confirmPassword" placeholder="Digite sua senha" onChange={e => setConfirmPassword(e.target.value)}/>
       </div>
       <div class="d-flex justify-content-end align-items-center mb-3">
-        <a href='/login' for="exampleInputPassword1" class="mr-3 ">Voltar</a>
+        <a style={{color:"blue", cursor:"pointer"}} onClick={()=> history.push('/login')} for="exampleInputPassword1" class="mr-3 ">Voltar</a>
       <button type="button" class="btn btn-primary w-25" onClick={()=> submit()}>Criar Conta</button>
       </div>
     </div>    
