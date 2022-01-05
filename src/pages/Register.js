@@ -8,8 +8,18 @@ export default function Register() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [flagEmptyFields, setFlagEmptyFields] = useState(false)
+  const [flagConfirmPassword, setFlagConfirmPassword] = useState(false)
 
   async function submit (){
+
+    if (name === '' || email === '' || password === ''){
+      setFlagEmptyFields(true)
+    }
+
+    if (password !== confirmPassword){
+      setFlagConfirmPassword(true)
+    }
 
     if (password === confirmPassword && password!== '' && email !== '' && name !== ''){
     
@@ -21,6 +31,8 @@ export default function Register() {
       }); 
 
       history.push('/login');
+      alert("Usuário criado com  Sucesso!");
+
     }
   }
 
@@ -46,6 +58,19 @@ export default function Register() {
         <label for="exampleInputPassword1"><h4>Confirmar Senha</h4></label>
         <input type="password" class="form-control" name="confirmPassword" placeholder="Digite sua senha" onChange={e => setConfirmPassword(e.target.value)}/>
       </div>
+      {
+        flagEmptyFields && (
+          <div>
+            <span  class="badge bg-danger text-white">Preencha todos os campos!</span>
+          </div>)
+      }
+      {
+        flagConfirmPassword && (
+          <div>
+            <span  class="badge bg-warning text-dark">Senha e Confirmar Senha devem ser iguais!</span>
+          </div>
+        )
+      }
       <div class="d-flex justify-content-end align-items-center mb-3">
         <a style={{color:"blue", cursor:"pointer"}} onClick={()=> history.push('/login')} for="exampleInputPassword1" class="mr-3 ">Voltar</a>
       <button type="button" class="btn btn-primary w-25" onClick={()=> submit()}>Criar Conta</button>

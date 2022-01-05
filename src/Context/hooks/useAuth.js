@@ -19,10 +19,7 @@ export default function useAuth() {
   }, []);
   
   async function handleLogin(objRequest) {
-    console.log('qualquer eh ', objRequest)
 
-    console.log("user", )
-     
     const { data: { token, user } } = await api.post('/auth/login', {
       email: objRequest.email,
       password: objRequest.password
@@ -35,6 +32,7 @@ export default function useAuth() {
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setAuthenticated(true);
     history.push('/schedules', {user: user});
+
   }
 
   function handleLogout() {

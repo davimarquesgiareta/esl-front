@@ -6,8 +6,30 @@ export default function Login() {
   const { handleLogin } = useContext(Context);
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [flagEmptyFields, setFlagEmptyFields] = useState(false)
+  const [flagUserExist, setFlagUserExist] = useState(false)
 
   const token = localStorage.getItem('token')
+
+  function verifyFlag(){
+    if (email === '' || password === ''){
+      setFlagEmptyFields(true)
+    }
+
+    if (email !== '' && password !== ''){
+      setFlagEmptyFields(false)
+      const promise = handleLogin({email, password}) 
+      promise.then(
+        (result) => { 
+           console.log(result);
+        },
+        (error) => { 
+          setFlagUserExist(true)
+           console.log(error);
+        }
+      ); 
+    }
+  }
 
   if (token){
     history.push('/schedules') 
@@ -24,9 +46,23 @@ export default function Login() {
           <label for="exampleInputPassword1"><h4>Password</h4></label>
           <input type="password" class="form-control" name="password" placeholder="Digite sua senha" onChange={e => setPassword(e.target.value)}/>
         </div>
+        {
+          flagEmptyFields && (
+            <div>
+              <span class="badge bg-danger text-white">Preencha todos os campos!</span>
+            </div>
+          )
+        }
+        {
+          flagUserExist && (
+            <div>
+              <span class="badge bg-danger text-white">Usuário não cadastrado!</span>
+            </div>
+          )
+        }
         <div class="d-flex justify-content-end align-items-center mb-3">
           <a style={{color:"blue", cursor:"pointer"}} onClick={()=> history.push('/register')} for="exampleInputPassword1" class="mr-3 ">Criar uma conta</a>
-          <button type="button" class="btn btn-primary w-25" onClick={()=> handleLogin({email, password})}>Entrar</button>
+          <button type="button" class="btn btn-primary w-25" onClick={ ()=>verifyFlag()  }>Entrar</button>
         </div>
       </div>    
     </>
